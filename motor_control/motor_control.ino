@@ -10,17 +10,34 @@ const int leftSensorPin = A0;
 const int rightSensorPin = A1;
 int leftSensorVal = 0;
 int rightSensorVal = 0;
+int sensorThreshold = 820;
 
 void setup() {
   Serial.begin(9600);
   AFMS.begin();
-  rightMotor->setSpeed(150);
+  rightMotor->setSpeed(50);
+  leftMotor->setSpeed(50);
 }
 
 void loop() {
   readSensorInfo();
-  rightMotor->run(BACKWARD);
-  
+  // check both; if both are aight then move forward
+  if (leftSensorVal > sensorThreshold && rightSensorVal > sensorThreshold) {
+    leftMotor -> run(FORWARD);
+    leftMotor -> run(BACKWARD);
+  }
+  else if (leftSensorVal > sensorThreshold) {
+    leftMotor -> run(RELEASE);
+    rightMotor -> run(BACKWARD);
+  }
+  else if (rightSensorVal > sensorThreshold) {
+    leftMotor -> run(FORWARD);
+    rightMotor -> run(RELEASE);
+  }
+  else {
+    leftMotor -> run(FORWARD);
+    rightMotor -> run(FORWARD);
+  }
   // wait 2 milliseconds before the next loop for the analog-to-digital
   // converter to settle after the last reading:
   delay(250);
