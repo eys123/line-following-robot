@@ -3,8 +3,8 @@
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 Adafruit_DCMotor *leftMotor = AFMS.getMotor(1);
+// is wired backwards; must run BACKWARDS to go forwards and vice versa
 Adafruit_DCMotor *rightMotor = AFMS.getMotor(2);
-// is wired in reverse; has to run BACKWARD to go forwards
 
 const int leftSensorPin = A1;
 const int rightSensorPin = A0;
@@ -24,6 +24,9 @@ void setup() {
 }
 
 void loop() {
+  if (Serial.available() != 0) {
+    forwardSpeed = Serial.parseInt();
+  }
   rightMotor->setSpeed(turnSpeed);
   leftMotor->setSpeed(turnSpeed);
   readSensorInfo();
@@ -59,28 +62,28 @@ void readSensorInfo() {
   rightSensorVal = analogRead(rightSensorPin);
   midLeftSensorVal = analogRead(midLeftSensorPin);
   midRightSensorVal = analogRead(midRightSensorPin);
-  // print the results to the Serial Monitor:
-  Serial.print("[");
-  Serial.print(leftSensorVal);
-  Serial.print(", ");
-  Serial.print(midLeftSensorVal);
-  Serial.print(", ");
-  Serial.print(midRightSensorVal);
-  Serial.print(", ");
-  Serial.print(rightSensorVal);
-  Serial.println("]");
+  // // print the results to the Serial Monitor:
+  // Serial.print("[");
+  // Serial.print(leftSensorVal);
+  // Serial.print(", ");
+  // Serial.print(midLeftSensorVal);
+  // Serial.print(", ");
+  // Serial.print(midRightSensorVal);
+  // Serial.print(", ");
+  // Serial.print(rightSensorVal);
+  // Serial.println("]");
 }
 
 void turnLeft() {
   leftMotor -> run(FORWARD);
   rightMotor -> run(FORWARD);
-  Serial.println("TURN LEFT");
+  // Serial.println("TURN LEFT");
 }
 
 void turnRight() {
   leftMotor -> run(BACKWARD);
   rightMotor -> run(BACKWARD);
-  Serial.println("TURN RIGHT");
+  // Serial.println("TURN RIGHT");
 }
 
 void forward() {
