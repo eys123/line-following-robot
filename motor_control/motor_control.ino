@@ -17,6 +17,7 @@ int midRightSensorVal = 0;
 int sensorThreshold = 650;
 int turnSpeed = 25;
 int forwardSpeed = 30;
+int speedMultiplier = 1;
 
 void setup() {
   Serial.begin(9600);
@@ -24,9 +25,11 @@ void setup() {
 }
 
 void loop() {
-  // if (Serial.available() != 0) {
-  //   forwardSpeed = Serial.parseInt();
-  // }
+  if (Serial.available() > 0) {
+    speedMultiplier = Serial.parseInt();
+  }
+  forwardSpeed = speedMultiplier * forwardSpeed;
+  turnSpeed = speedMultiplier * turnSpeed;
   rightMotor->setSpeed(turnSpeed);
   leftMotor->setSpeed(turnSpeed);
   readSensorInfo();
@@ -45,8 +48,7 @@ void loop() {
     Serial.print(", ");
     Serial.print(forwardSpeed * -1);
     Serial.print(", ");
-    Serial.print(forwardSpeed * -1);
-    Serial.println("]");
+    Serial.println(forwardSpeed * -1);
   }
   // wait 2 milliseconds before the next loop for the analog-to-digital
   // converter to settle after the last reading:
@@ -60,7 +62,6 @@ void readSensorInfo() {
   midLeftSensorVal = analogRead(midLeftSensorPin);
   midRightSensorVal = analogRead(midRightSensorPin);
   // // print the results to the Serial Monitor:
-  Serial.print("[");
   Serial.print(leftSensorVal);
   Serial.print(", ");
   Serial.print(midLeftSensorVal);
@@ -76,8 +77,7 @@ void turnLeft() {
   Serial.print(", ");
   Serial.print(turnSpeed * -1);
   Serial.print(", ");
-  Serial.print(turnSpeed);
-  Serial.println("]");
+  Serial.println(turnSpeed);
 }
 
 void turnRight() {
@@ -86,8 +86,7 @@ void turnRight() {
   Serial.print(", ");
   Serial.print(turnSpeed);
   Serial.print(", ");
-  Serial.print(turnSpeed * -1);
-  Serial.println("]");
+  Serial.println(turnSpeed * -1);
 }
 
 void forward() {
@@ -96,6 +95,5 @@ void forward() {
   Serial.print(", ");
   Serial.print(forwardSpeed);
   Serial.print(", ");
-  Serial.print(forwardSpeed);
-  Serial.println("]");
+  Serial.println(forwardSpeed);
 }
