@@ -39,7 +39,7 @@ void loop() {
   forwardSpeed = speedMultiplier * forwardSpeed;
   adjustSpeed = speedMultiplier * adjustSpeed;
   
-  // set motor to turnSpeed first
+  // set motor to adjustSpeed first
   rightMotor->setSpeed(adjustSpeed);
   leftMotor->setSpeed(adjustSpeed);
 
