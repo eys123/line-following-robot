@@ -24,7 +24,7 @@ int sensorThreshold = 650;
 // init speed variables
 int adjustSpeed = 25;
 int forwardSpeed = 30;
-int speedMultiplier = 1;
+int speedAdder = 1;
 
 void setup() {
   Serial.begin(9600);
@@ -34,10 +34,10 @@ void setup() {
 void loop() {
   // check for serial input to adjust speed
   if (Serial.available() > 0) {
-    speedMultiplier = Serial.parseInt();
+    speedAdder = Serial.parseInt();
+    forwardSpeed = speedAdder + forwardSpeed;
+    turnSpeed = speedAdder + turnSpeed;
   }
-  forwardSpeed = speedMultiplier * forwardSpeed;
-  adjustSpeed = speedMultiplier * adjustSpeed;
   
   // set motor to adjustSpeed first
   rightMotor->setSpeed(adjustSpeed);
