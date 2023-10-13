@@ -36,7 +36,7 @@ void loop() {
   if (Serial.available() > 0) {
     speedAdder = Serial.parseInt();
     forwardSpeed = speedAdder + forwardSpeed;
-    turnSpeed = speedAdder + turnSpeed;
+    adjustSpeed = speedAdder + adjustSpeed;
   }
   
   // set motor to adjustSpeed first
