@@ -22,7 +22,7 @@ int midRightSensorVal = 0;
 int sensorThreshold = 650;
 
 // init speed variables
-int turnSpeed = 25;
+int adjustSpeed = 25;
 int forwardSpeed = 30;
 int speedMultiplier = 1;
 
@@ -37,11 +37,11 @@ void loop() {
     speedMultiplier = Serial.parseInt();
   }
   forwardSpeed = speedMultiplier * forwardSpeed;
-  turnSpeed = speedMultiplier * turnSpeed;
+  adjustSpeed = speedMultiplier * adjustSpeed;
   
   // set motor to turnSpeed first
-  rightMotor->setSpeed(turnSpeed);
-  leftMotor->setSpeed(turnSpeed);
+  rightMotor->setSpeed(adjustSpeed);
+  leftMotor->setSpeed(adjustSpeed);
 
   // read sensor info and decide movement based off that
   readSensorInfo();
@@ -96,9 +96,9 @@ void turnLeft() {
   rightMotor->run(FORWARD);
 
   Serial.print(", ");
-  Serial.print(turnSpeed * -1);
+  Serial.print(adjustSpeed * -1);
   Serial.print(", ");
-  Serial.println(turnSpeed);
+  Serial.println(adjustSpeed);
 }
 
 void turnRight() {
@@ -110,9 +110,9 @@ void turnRight() {
   rightMotor->run(BACKWARD);
 
   Serial.print(", ");
-  Serial.print(turnSpeed);
+  Serial.print(adjustSpeed);
   Serial.print(", ");
-  Serial.println(turnSpeed * -1);
+  Serial.println(adjustSpeed * -1);
 }
 
 void forward() {
